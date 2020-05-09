@@ -1,16 +1,29 @@
-import React, { useState } from 'react';
-import { Button, Grid, Icon } from 'semantic-ui-react';
+import React, { useState, useEffect } from 'react';
+import { Button, Grid, Icon, Popup } from 'semantic-ui-react';
 import { motion, useAnimation } from 'framer-motion';
 
+import facts from './facts.json';
 import styles from './App.module.css';
 
+let factId = 0;
+function Fact() {
+  useEffect(() => {
+    factId += 1;
+    if (factId >= facts.length - 1) factId = 0;
+  }, []);
+
+  return facts[factId];
+}
+
 function App() {
+  const [isAlarmActive, setIsAlarmActive] = useState(true);
   const [selectedPet, setSelectedPet] = useState({
     emoji: "🐹",
     color: "#defcf9",
   });
   const [animation, setAnimation] = useState('');
   const heartControls = useAnimation();
+  const cookieControls = useAnimation();
 
   function runAnimation(action) {
     setAnimation(`animate__animated animate__${action}`);
@@ -20,14 +33,21 @@ function App() {
     }, 1000);
   }
 
-  function onFeedClick() {
+  async function onFeedClick() {
+    await cookieControls.start({
+      opacity: 1,
+      y: -30,
+    });
+    await cookieControls.start({ y: 0 });
+    await cookieControls.start({ y: -30 });
     runAnimation('bounce');
+    await cookieControls.start({ y: 0, opacity: 0 });
   }
 
   async function onPetClick() {
     await heartControls.start(i => ({
       opacity: 1,
-      y: 10,
+      y: -10,
       transition: {
         delay: i * 1.3,
       },
@@ -39,7 +59,7 @@ function App() {
       },
     }));
     await heartControls.start(i => ({
-      y: 10,
+      y: -10,
       transition: {
         delay: i * 1.3,
       },
@@ -52,10 +72,15 @@ function App() {
         delay: i * 1.3,
       },
     }));
+    runAnimation('bounce');
   }
 
   function onSetAlarmClick() {
     runAnimation('shakeY');
+  }
+
+  function onClickAlarmClock() {
+    setIsAlarmActive(false);
   }
 
   return (
@@ -70,10 +95,26 @@ function App() {
       <header className={styles.header} style={{'background-color': selectedPet.color}}>
         <div classname={styles.emojiContainer}>
           <motion.div className={styles.heart} animate={heartControls}>❤️</motion.div>
-          <div className={[styles.petContainer, animation].join(' ')}>{selectedPet.emoji}</div>
+
+          <motion.div
+            onClick={onClickAlarmClock}
+            initial={{ scale: 5, x: 100 }}
+            animate={{ scale: isAlarmActive ? 1 : 0 }}
+            transition={{ yoyo: isAlarmActive ? Infinity : false }}
+            className={styles.alarm}>
+            ⏰
+          </motion.div>
+
+          <Popup
+            trigger={<div className={[styles.petContainer, animation].join(' ')}>{selectedPet.emoji}</div>}
+            content={<Fact />}
+            inverted
+            position="top center"
+          />
+          <motion.div className={styles.cookie} animate={cookieControls}>🍪</motion.div>
         </div>
 
-        <Grid centered padded={false}>
+        <Grid centered padded={false} className={styles.buttonContainer}>
           <Grid.Row>
             <Button size="large" icon labelPosition="right" className={styles.button} onClick={onFeedClick}>
               Feed

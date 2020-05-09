@@ -16,7 +16,7 @@
 
 .petContainer {
   font-size: 12rem;
-  line-height: 15rem;
+  line-height: 12rem;
 }
 
 .button {
@@ -34,4 +34,12 @@
   position: absolute;
   right: 20px;
   top: 20px;
+}
+
+.cookie {
+  opacity: 0;
+}
+
+.buttonContainer {
+  margin-top: 10px !important;
 }
