@@ -16,7 +16,7 @@ function Fact() {
 }
 
 function App() {
-  const [isAlarmActive, setIsAlarmActive] = useState(true);
+  const [isAlarmActive, setIsAlarmActive] = useState(false);
   const [selectedPet, setSelectedPet] = useState({
     emoji: "🐹",
     color: "#defcf9",
@@ -75,8 +75,9 @@ function App() {
     runAnimation('bounce');
   }
 
-  function onSetAlarmClick() {
+  async function onSetAlarmClick() {
     runAnimation('shakeY');
+    setIsAlarmActive(true);
   }
 
   function onClickAlarmClock() {
@@ -86,14 +87,14 @@ function App() {
   return (
     <div className={styles.container}>
       <div className={styles.petSelector}>
-        <Button color="white" onClick={() => setSelectedPet({ emoji: "🐱", color: "#ffe8df" })}>🐱</Button>
+        <Button onClick={() => setSelectedPet({ emoji: "🐱", color: "#ffe8df" })}>🐱</Button>
         <Button onClick={() => setSelectedPet({ emoji: "🐰", color: "#58b4ae" })}>🐰</Button>
         <Button onClick={() => setSelectedPet({ emoji: "🐶", color: "#7d5a5a" })}>🐶</Button>
         <Button onClick={() => setSelectedPet({ emoji: "🐹", color: "#defcf9" })}>🐹</Button>
       </div>
 
-      <header className={styles.header} style={{'background-color': selectedPet.color}}>
-        <div classname={styles.emojiContainer}>
+      <header className={styles.header} style={{ backgroundColor: selectedPet.color }}>
+        <div className={styles.emojiContainer}>
           <motion.div className={styles.heart} animate={heartControls}>❤️</motion.div>
 
           <motion.div
