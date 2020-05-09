@@ -40,6 +40,10 @@
   opacity: 0;
 }
 
+.alarm:hover {
+  cursor: pointer;
+}
+
 .buttonContainer {
   margin-top: 10px !important;
 }

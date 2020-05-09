@@ -1,3 +1,18 @@
+# Hacklarious
+
+Absolutely useless virtual pet. Interact with it, play with it.. it will never die (or will it?).
+
+
+## Features
+
+- Change your pet
+- Feed your pet
+- Pet your pet
+- Interact with your pet for random fact (hover over it)
+- Set an alarm clock
+- Snooze the alarm clock once it pops open
+
+
 ## Technologies used
 
 General:

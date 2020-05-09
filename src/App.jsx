@@ -99,8 +99,8 @@ function App() {
 
           <motion.div
             onClick={onClickAlarmClock}
-            initial={{ scale: 5, x: 100 }}
-            animate={{ scale: isAlarmActive ? 1 : 0 }}
+            initial={{ scale: 0, x: 100 }}
+            animate={{ scale: isAlarmActive ? 3 : 0 }}
             transition={{ yoyo: isAlarmActive ? Infinity : false }}
             className={styles.alarm}>
             ⏰
