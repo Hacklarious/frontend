@@ -149,7 +149,6 @@ function App() {
         </Modal.Actions>
       </Modal>
 
-
       <div className={styles.petSelector}>
         <Button onClick={() => setSelectedPet({ emoji: "🐱", color: "#ffe8df", buttonColor: "#E0F2DB" })}>🐱</Button>
         <Button onClick={() => setSelectedPet({ emoji: "🐰", color: "#58b4ae", buttonColor: "#FFE4F8" })}>🐰</Button>
