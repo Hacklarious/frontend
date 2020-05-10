@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Button, Grid, Icon, Popup, Loader, Dimmer, Modal } from 'semantic-ui-react';
+import { Button, Grid, Icon, Popup, Loader, Dimmer, Modal, Message } from 'semantic-ui-react';
 import { motion, useAnimation } from 'framer-motion';
 import firebase from 'firebase';
 
@@ -9,7 +9,7 @@ import AlarmModal from './AlarmModal';
 import facts from './facts.json';
 import styles from './App.module.css';
 
-const app = firebase.initializeApp({
+firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "dynamic-amulet-276719.firebaseapp.com",
   databaseURL: "https://dynamic-amulet-276719.firebaseio.com",
@@ -36,6 +36,7 @@ function Fact() {
 }
 
 function App() {
+  const [foodCounter, setFoodCounter] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [modalContent, setModalContent] = useState('');
   const [isAlarmActive, setIsAlarmActive] = useState(false);
@@ -70,6 +71,7 @@ function App() {
     await cookieControls.start({ y: -30 });
     runAnimation('bounce');
     await cookieControls.start({ y: 0, opacity: 0 });
+    setFoodCounter((state) => state + 1);
   }
 
   async function onPetClick() {
@@ -162,6 +164,8 @@ function App() {
 
     // Fake alarm clock
     interval = setInterval(async () => {
+      if (selectedPet.isDead) return;
+
       try {
         const { data } = await axios.get('https://us-central1-dynamic-amulet-276719.cloudfunctions.net/should-i-alarm');
 
@@ -175,6 +179,23 @@ function App() {
       // setIsAlarmActive(true);
     }, 1000 * 10); // 10 seconds
   }, []);
+
+  // Kill the pet
+  useEffect(() => {
+    if (foodCounter < 3) return;
+
+    setSelectedPet((state) => ({
+      emoji: "☠️",
+      color: "#000",
+      buttonColor: "#fff",
+      isDead: true,
+    }));
+  }, [foodCounter, setSelectedPet]);
+
+  useEffect(() => {
+    if (!selectedPet.isDead) return;
+    setFoodCounter(0);
+  }, [selectedPet]);
 
   return (
     <div className={styles.container}>
@@ -220,7 +241,9 @@ function App() {
           <motion.div className={styles.cookie} animate={cookieControls}>🍪</motion.div>
         </div>
 
-        <Grid centered padded={false} className={styles.buttonContainer}>
+        {selectedPet.isDead && <Message negative><Message.Header>Oh boy.. your pet died of obesity...</Message.Header><p>You can create a new pet by clicking in top-right corner.</p></Message>}
+
+        {selectedPet.isDead || <Grid centered padded={false} className={styles.buttonContainer}>
           <Grid.Row>
             <Button size="large" icon labelPosition="right" style={{backgroundColor: selectedPet.buttonColor}} onClick={onFeedClick}>
               Feed
@@ -243,7 +266,7 @@ function App() {
           <Grid.Row>
             <Button size="large" style={{backgroundColor: selectedPet.buttonColor}} onClick={onSetAlarmClick}>Set Alarm clock</Button>
           </Grid.Row>
-        </Grid>
+        </Grid>}
       </header>
     </div>
   );

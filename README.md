@@ -3,7 +3,7 @@
   <img src="demo.png" alt="demo" />
 </p>
 
-Absolutely useless virtual pet. Interact with it, play with it.. it will never die (or will it?).
+Absolutely useless virtual pet. Interact with it, play with it.. it will never die (or will it? try feeding it 3x).
 
 ## Quick overview
 This is a purely frontend project built with React. It interacts with a RESTful API to retrieve jokes, the alarm list and set a new alarm.
