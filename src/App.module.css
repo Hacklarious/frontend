@@ -47,3 +47,7 @@
 .buttonContainer {
   margin-top: 10px !important;
 }
+
+.centered {
+  text-align: center !important;
+}

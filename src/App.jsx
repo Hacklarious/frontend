@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Grid, Icon, Popup } from 'semantic-ui-react';
+import axios from 'axios';
+import { Button, Grid, Icon, Popup, Loader, Dimmer, Modal } from 'semantic-ui-react';
 import { motion, useAnimation } from 'framer-motion';
 
 import facts from './facts.json';
@@ -16,6 +17,8 @@ function Fact() {
 }
 
 function App() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [modalContent, setModalContent] = useState('');
   const [isAlarmActive, setIsAlarmActive] = useState(false);
   const [selectedPet, setSelectedPet] = useState({
     emoji: "🐹",
@@ -84,8 +87,51 @@ function App() {
     setIsAlarmActive(false);
   }
 
+  async function onDadJokeClick() {
+    setIsLoading(true);
+
+    try {
+      const { data } = await axios.get('http://api.very-unique-domain-name.tech:8002/dadjoke');
+      setModalContent(data.results);
+    } catch (e) { }
+
+    setIsLoading(false);
+  }
+
+  async function onInsultClick() {
+    setIsLoading(true);
+
+    try {
+      const { data } = await axios.get('http://api.very-unique-domain-name.tech:8002/insultme');
+      setModalContent(data.results);
+    } catch (e) { }
+
+    setIsLoading(false);
+  }
+
+  async function onChuckNorrisClick() {
+    setIsLoading(true);
+
+    try {
+      const { data } = await axios.get('http://api.very-unique-domain-name.tech:8002/chuck');
+      setModalContent(data.results);
+    } catch (e) { }
+
+    setIsLoading(false);
+  }
+
   return (
     <div className={styles.container}>
+      <Modal open={!!modalContent} basic>
+        <Modal.Content className={styles.centered}>{modalContent}</Modal.Content>
+        <Modal.Actions className={styles.centered}>
+          <Button basic color="red" onClick={() => setModalContent('')} inverted>
+            <Icon name="remove" /> Close
+          </Button>
+        </Modal.Actions>
+      </Modal>
+
+
       <div className={styles.petSelector}>
         <Button onClick={() => setSelectedPet({ emoji: "🐱", color: "#ffe8df" })}>🐱</Button>
         <Button onClick={() => setSelectedPet({ emoji: "🐰", color: "#58b4ae" })}>🐰</Button>
@@ -106,6 +152,10 @@ function App() {
             ⏰
           </motion.div>
 
+          <Dimmer active={isLoading}>
+            <Loader />
+          </Dimmer>
+
           <Popup
             trigger={<div className={[styles.petContainer, animation].join(' ')}>{selectedPet.emoji}</div>}
             content={<Fact />}
@@ -125,6 +175,15 @@ function App() {
               Pet
               <Icon name="like" />
             </Button>
+          </Grid.Row>
+          <Grid.Row>
+            <Button.Group size="large">
+              <Button className={styles.button} onClick={onDadJokeClick}>Dad joke</Button>
+              <Button.Or />
+              <Button className={styles.button} onClick={onInsultClick}>Insult me</Button>
+              <Button.Or />
+              <Button className={styles.button} onClick={onChuckNorrisClick}>Chuck Norris joke</Button>
+            </Button.Group>
           </Grid.Row>
           <Grid.Row>
             <Button size="large" className={styles.button} onClick={onSetAlarmClick}>Set Alarm clock</Button>
