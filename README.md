@@ -20,6 +20,8 @@ General:
 - [Create-react-app](https://create-react-app.dev)
 - [EditorConfig](https://editorconfig.org)
 - [Semantic UI](https://react.semantic-ui.com)
+- [moment](https://momentjs.com)
+- [axios](https://github.com/axios/axios)
 
 Animations:
 - [Animate.css](https://animate.style)

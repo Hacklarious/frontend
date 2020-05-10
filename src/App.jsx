@@ -3,8 +3,12 @@ import axios from 'axios';
 import { Button, Grid, Icon, Popup, Loader, Dimmer, Modal } from 'semantic-ui-react';
 import { motion, useAnimation } from 'framer-motion';
 
+import AlarmModal from './AlarmModal';
+
 import facts from './facts.json';
 import styles from './App.module.css';
+
+const API_URL = 'http://api.very-unique-domain-name.tech:8002';
 
 let factId = 0;
 function Fact() {
@@ -79,8 +83,14 @@ function App() {
   }
 
   async function onSetAlarmClick() {
-    runAnimation('shakeY');
-    setIsAlarmActive(true);
+    function onCreated() {
+      setModalContent('');
+      runAnimation('shakeY');
+    }
+
+    setModalContent((
+      <AlarmModal onCreated={onCreated} />
+    ));
   }
 
   function onClickAlarmClock() {
