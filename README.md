@@ -44,6 +44,7 @@ Animations:
 - Email alerts for uptime check (what if our pet goes down?!)
 - Cloud Storage monitoring dashboard
 - [Cloud Function](https://github.com/Hacklarious/cloud-function-should-i-run) for checking if an alarm clock should be showed or not (poll every 10 seconds)
+- Firebase for storing various customer interaction events (yes, we know Firebase is not meant to be used for such things.. it's a ridiculous approach; and that's the goal of it)
 
 
 ## Installing

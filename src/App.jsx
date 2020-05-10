@@ -2,11 +2,26 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Grid, Icon, Popup, Loader, Dimmer, Modal } from 'semantic-ui-react';
 import { motion, useAnimation } from 'framer-motion';
+import firebase from 'firebase';
 
 import AlarmModal from './AlarmModal';
 
 import facts from './facts.json';
 import styles from './App.module.css';
+
+const app = firebase.initializeApp({
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: "dynamic-amulet-276719.firebaseapp.com",
+  databaseURL: "https://dynamic-amulet-276719.firebaseio.com",
+  projectId: "dynamic-amulet-276719",
+  storageBucket: "dynamic-amulet-276719.appspot.com",
+  messagingSenderId: "351328951566",
+  appId: "1:351328951566:web:1ebaf720b43093717b4b5f"
+});
+const db = firebase.firestore();
+db.settings({
+  timestampsInSnapshots: true
+});
 
 const API_URL = 'http://api.very-unique-domain-name.tech:8002';
 
@@ -41,7 +56,12 @@ function App() {
     }, 1000);
   }
 
+  function storeInteraction(action, metadata = {}) {
+    db.collection('analytics').add({ action, metadata });
+  }
+
   async function onFeedClick() {
+    storeInteraction('feed');
     await cookieControls.start({
       opacity: 1,
       y: -30,
@@ -53,6 +73,7 @@ function App() {
   }
 
   async function onPetClick() {
+    storeInteraction('pet');
     await heartControls.start(i => ({
       opacity: 1,
       y: -10,
@@ -84,6 +105,7 @@ function App() {
   }
 
   async function onSetAlarmClick() {
+    storeInteraction('set-alarm-clock');
     function onCreated() {
       setModalContent('');
       runAnimation('shakeY');
@@ -95,10 +117,12 @@ function App() {
   }
 
   function onClickAlarmClock() {
+    storeInteraction('dismiss-alarm-clock');
     setIsAlarmActive(false);
   }
 
   async function onDadJokeClick() {
+    storeInteraction('dad-joke');
     setIsLoading(true);
 
     try {
@@ -110,6 +134,7 @@ function App() {
   }
 
   async function onInsultClick() {
+    storeInteraction('insult');
     setIsLoading(true);
 
     try {
@@ -121,6 +146,7 @@ function App() {
   }
 
   async function onChuckNorrisClick() {
+    storeInteraction('chuck-norris');
     setIsLoading(true);
 
     try {
@@ -140,6 +166,7 @@ function App() {
         const { data } = await axios.get('https://us-central1-dynamic-amulet-276719.cloudfunctions.net/should-i-alarm');
 
         if (data) {
+          storeInteraction('trigger-alarm');
           setIsAlarmActive(true);
           window.clearInterval(interval);
         }
