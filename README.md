@@ -1,6 +1,6 @@
-# Hacklarious
+# Very-Unique-Pet
 <p align="center">
-![demo](demo.png)
+  <img src="demo.png" alt="demo" />
 </p>
 
 Absolutely useless virtual pet. Interact with it, play with it.. it will never die (or will it?).
