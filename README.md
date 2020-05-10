@@ -6,7 +6,7 @@ Absolutely useless virtual pet. Interact with it, play with it.. it will never d
 ## Quick overview
 This is a purely frontend project built with React. It interacts with a RESTful API to retrieve jokes, the alarm list and set a new alarm.
 
-The project is deployed to Google Cloud Storage and can be accessed in our [very-unique domain](http://very-unique-domain-name.tech). Internally the frontend uses Axios for making HTTP calls, Semantic UI for basic user-interface building blocks, moment.js for handling dates, and Animate.css and Framer for animations.
+The project is deployed to Google Cloud Storage and can be accessed in our [very-unique domain](http://very-unique-domain-name.tech). Domain registered with [Domain.com](https://www.domain.com/). Internally the frontend uses Axios for making HTTP calls, Semantic UI for basic user-interface building blocks, moment.js for handling dates, and Animate.css and Framer for animations.
 
 Our RESTful API stores the information in a [MongoDB](https://www.mongodb.com) database.
 

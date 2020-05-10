@@ -27,6 +27,7 @@ function App() {
   const [selectedPet, setSelectedPet] = useState({
     emoji: "🐹",
     color: "#defcf9",
+    buttonColor: "#cadefc",
   });
   const [animation, setAnimation] = useState('');
   const heartControls = useAnimation();
@@ -101,7 +102,7 @@ function App() {
     setIsLoading(true);
 
     try {
-      const { data } = await axios.get('http://api.very-unique-domain-name.tech:8002/dadjoke');
+      const { data } = await axios.get(`${API_URL}/dadjoke`);
       setModalContent(data.results);
     } catch (e) { }
 
@@ -112,7 +113,7 @@ function App() {
     setIsLoading(true);
 
     try {
-      const { data } = await axios.get('http://api.very-unique-domain-name.tech:8002/insultme');
+      const { data } = await axios.get(`${API_URL}/insultme`);
       setModalContent(data.results);
     } catch (e) { }
 
@@ -123,12 +124,19 @@ function App() {
     setIsLoading(true);
 
     try {
-      const { data } = await axios.get('http://api.very-unique-domain-name.tech:8002/chuck');
+      const { data } = await axios.get(`${API_URL}/chuck`);
       setModalContent(data.results);
     } catch (e) { }
 
     setIsLoading(false);
   }
+
+  useEffect(() => {
+    // Fake alarm clock
+    setTimeout(() => {
+      setIsAlarmActive(true);
+    }, 1000 * 60); // 1 minute
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -143,10 +151,10 @@ function App() {
 
 
       <div className={styles.petSelector}>
-        <Button onClick={() => setSelectedPet({ emoji: "🐱", color: "#ffe8df" })}>🐱</Button>
-        <Button onClick={() => setSelectedPet({ emoji: "🐰", color: "#58b4ae" })}>🐰</Button>
-        <Button onClick={() => setSelectedPet({ emoji: "🐶", color: "#7d5a5a" })}>🐶</Button>
-        <Button onClick={() => setSelectedPet({ emoji: "🐹", color: "#defcf9" })}>🐹</Button>
+        <Button onClick={() => setSelectedPet({ emoji: "🐱", color: "#ffe8df", buttonColor: "#E0F2DB" })}>🐱</Button>
+        <Button onClick={() => setSelectedPet({ emoji: "🐰", color: "#58b4ae", buttonColor: "#FFE4F8" })}>🐰</Button>
+        <Button onClick={() => setSelectedPet({ emoji: "🐶", color: "#7d5a5a", buttonColor: "#BEFCFF" })}>🐶</Button>
+        <Button onClick={() => setSelectedPet({ emoji: "🐹", color: "#defcf9", buttonColor: "#cadefc" })}>🐹</Button>
       </div>
 
       <header className={styles.header} style={{ backgroundColor: selectedPet.color }}>
@@ -177,26 +185,26 @@ function App() {
 
         <Grid centered padded={false} className={styles.buttonContainer}>
           <Grid.Row>
-            <Button size="large" icon labelPosition="right" className={styles.button} onClick={onFeedClick}>
+            <Button size="large" icon labelPosition="right" style={{backgroundColor: selectedPet.buttonColor}} onClick={onFeedClick}>
               Feed
               <Icon name="food" />
             </Button>
-            <Button size="large" icon labelPosition="right" className={styles.button} onClick={onPetClick}>
+            <Button size="large" icon labelPosition="right" style={{backgroundColor: selectedPet.buttonColor}} onClick={onPetClick}>
               Pet
               <Icon name="like" />
             </Button>
           </Grid.Row>
           <Grid.Row>
             <Button.Group size="large">
-              <Button className={styles.button} onClick={onDadJokeClick}>Dad joke</Button>
+              <Button style={{backgroundColor: selectedPet.buttonColor}} onClick={onDadJokeClick}>Dad joke</Button>
               <Button.Or />
-              <Button className={styles.button} onClick={onInsultClick}>Insult me</Button>
+              <Button style={{backgroundColor: selectedPet.buttonColor}} onClick={onInsultClick}>Insult me</Button>
               <Button.Or />
-              <Button className={styles.button} onClick={onChuckNorrisClick}>Chuck Norris joke</Button>
+              <Button style={{backgroundColor: selectedPet.buttonColor}} onClick={onChuckNorrisClick}>Chuck Norris joke</Button>
             </Button.Group>
           </Grid.Row>
           <Grid.Row>
-            <Button size="large" className={styles.button} onClick={onSetAlarmClick}>Set Alarm clock</Button>
+            <Button size="large" style={{backgroundColor: selectedPet.buttonColor}} onClick={onSetAlarmClick}>Set Alarm clock</Button>
           </Grid.Row>
         </Grid>
       </header>
