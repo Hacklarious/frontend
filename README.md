@@ -14,7 +14,6 @@ Our RESTful API stores the information in a [MongoDB](https://www.mongodb.com) d
 
 
 ## Features
-
 - Change your pet
 - Feed your pet
 - Pet your pet
@@ -25,7 +24,6 @@ Our RESTful API stores the information in a [MongoDB](https://www.mongodb.com) d
 
 
 ## Technologies used
-
 General:
 - [React](https://reactjs.org)
 - [Create-react-app](https://create-react-app.dev)
@@ -38,15 +36,27 @@ Animations:
 - [Animate.css](https://animate.style)
 - [Framer](https://www.framer.com)
 
+
+## Google Cloud Usage
+- Static deployments to Google Cloud Storage
+- Cloud Storage configuration via Cloud Shell (setting CORS, setting default index page)
+- Uptime monitoring with uptime checks
+- Email alerts for uptime check (what if our pet goes down?!)
+- Cloud Storage monitoring dashboard
+- [Cloud Function](https://github.com/Hacklarious/cloud-function-should-i-run) for checking if an alarm clock should be showed or not (poll every 10 seconds)
+
+
 ## Installing
 ```sh
 yarn install
 ```
 
+
 ## Development
 ```sh
 yarn start
 ```
+
 
 ## Production build
 ```sh

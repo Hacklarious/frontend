@@ -132,10 +132,21 @@ function App() {
   }
 
   useEffect(() => {
+    let interval;
+
     // Fake alarm clock
-    setTimeout(() => {
-      setIsAlarmActive(true);
-    }, 1000 * 60); // 1 minute
+    interval = setInterval(async () => {
+      try {
+        const { data } = await axios.get('https://us-central1-dynamic-amulet-276719.cloudfunctions.net/should-i-alarm');
+
+        if (data) {
+          setIsAlarmActive(true);
+          window.clearInterval(interval);
+        }
+      } catch (e) {}
+
+      // setIsAlarmActive(true);
+    }, 1000 * 10); // 10 seconds
   }, []);
 
   return (
